@@ -1,0 +1,745 @@
+
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>주말의 게임 특판 - WEEKEND PICKS</title>
+
+  <!-- Pretendard 폰트 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
+  <style>
+    :root{
+      --bg:#f4f1ec;
+      --card:#ffffff;
+      --text:#171717;
+      --muted:#6e6862;
+      --soft:#9c958f;
+      --line:#e9e2db;
+      --accent:#ff4f1f;
+      --accent2:#ff7a3d;
+      --black:#171717;
+      --radius:34px;
+      --shadow:0 28px 70px rgba(28,22,18,.14);
+    }
+
+    *{box-sizing:border-box}
+
+    html{scroll-behavior:smooth}
+
+    body{
+      margin:0;
+      background:
+        radial-gradient(circle at 50% 0%, #fff 0%, #f8f4ef 38%, var(--bg) 100%);
+      color:var(--text);
+      font-family:
+        Pretendard,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans KR",
+        sans-serif;
+    }
+
+    .page{
+      width:min(1180px, calc(100% - 36px));
+      margin:52px auto 80px;
+    }
+
+    /* =========================
+       상단 인트로
+    ========================= */
+    .intro{
+      text-align:center;
+      padding:46px 24px 52px;
+    }
+
+    .intro-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:11px 20px;
+      border-radius:999px;
+      background:#191919;
+      color:#fff;
+      font-size:14px;
+      font-weight:900;
+      letter-spacing:.15em;
+      box-shadow:0 10px 24px rgba(0,0,0,.12);
+    }
+
+    .intro h1{
+      margin:20px 0 0;
+      font-size:clamp(46px, 6vw, 76px);
+      line-height:1.02;
+      font-weight:950;
+      letter-spacing:-.065em;
+    }
+
+    .intro p{
+      margin:18px auto 0;
+      max-width:720px;
+      color:var(--muted);
+      font-size:clamp(18px, 2.2vw, 24px);
+      line-height:1.6;
+      font-weight:650;
+      word-break:keep-all;
+    }
+
+    /* =========================
+       공통 게임 카드
+    ========================= */
+    .game-card{
+      position:relative;
+      overflow:hidden;
+      margin:0 auto 42px;
+      background:var(--card);
+      border:1px solid rgba(0,0,0,.05);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      background:#111;
+      text-align:center;
+    }
+
+    .hero img{
+      display:block;
+      width:100%;
+      max-width:1080px;
+      margin:0 auto;
+      height:auto;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      height:33%;
+      pointer-events:none;
+      background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.46));
+    }
+
+    /* 이미지 위 PICK 라벨 */
+    .pick-label{
+      position:absolute;
+      z-index:3;
+      top:24px;
+      left:28px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 15px;
+      border:1px solid rgba(255,255,255,.34);
+      border-radius:999px;
+      background:rgba(15,15,15,.5);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      color:#fff;
+      box-shadow:0 8px 26px rgba(0,0,0,.14);
+    }
+
+    .pick-number{
+      font-size:17px;
+      font-weight:950;
+      letter-spacing:-.02em;
+    }
+
+    .pick-copy{
+      font-size:12px;
+      font-weight:850;
+      letter-spacing:.13em;
+    }
+
+    /* 할인율 배지 */
+    .discount-badge{
+      position:absolute;
+      z-index:3;
+      right:28px;
+      bottom:24px;
+      min-width:144px;
+      padding:16px 18px 15px;
+      text-align:center;
+      border-radius:22px;
+      color:#fff;
+      background:linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow:0 14px 34px rgba(255,79,31,.34);
+    }
+
+    .discount-badge small{
+      display:block;
+      margin-bottom:3px;
+      font-size:12px;
+      font-weight:850;
+      letter-spacing:.08em;
+      opacity:.9;
+    }
+
+    .discount-badge strong{
+      display:block;
+      font-size:36px;
+      line-height:1;
+      font-weight:950;
+      letter-spacing:-.05em;
+    }
+
+    /* =========================
+       게임 정보
+    ========================= */
+    .content{
+      position:relative;
+      text-align:center;
+      padding:52px 64px 58px;
+    }
+
+    .index-watermark{
+      position:absolute;
+      left:50%;
+      top:12px;
+      transform:translateX(-50%);
+      color:#f2ede8;
+      font-size:108px;
+      line-height:1;
+      font-weight:950;
+      letter-spacing:-.08em;
+      pointer-events:none;
+      user-select:none;
+    }
+
+    .eyebrow{
+      position:relative;
+      z-index:2;
+      margin:0 0 10px;
+      color:var(--accent);
+      font-size:14px;
+      font-weight:900;
+      letter-spacing:.16em;
+    }
+
+    .game-title{
+      position:relative;
+      z-index:2;
+      margin:0;
+      font-size:clamp(38px, 5vw, 64px);
+      line-height:1.05;
+      font-weight:950;
+      letter-spacing:-.055em;
+      word-break:keep-all;
+    }
+
+    .summary{
+      position:relative;
+      z-index:2;
+      max-width:760px;
+      margin:18px auto 0;
+      color:#5e5852;
+      font-size:clamp(18px, 2vw, 23px);
+      line-height:1.65;
+      font-weight:650;
+      letter-spacing:-.02em;
+      word-break:keep-all;
+    }
+
+    .divider{
+      width:58px;
+      height:2px;
+      margin:28px auto 30px;
+      border:0;
+      background:linear-gradient(90deg, transparent, #d5cec7, transparent);
+    }
+
+    .price-row{
+      display:flex;
+      justify-content:center;
+      align-items:flex-end;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .price-old{
+      color:#9a938d;
+      font-size:20px;
+      font-weight:750;
+      text-decoration:line-through;
+      text-decoration-thickness:2px;
+    }
+
+    .price-arrow{
+      color:#c9c1ba;
+      font-size:20px;
+      font-weight:800;
+      transform:translateY(-4px);
+    }
+
+    .price-final{
+      color:var(--accent);
+      font-size:clamp(48px, 6vw, 74px);
+      line-height:.95;
+      font-weight:950;
+      letter-spacing:-.06em;
+    }
+
+    .won{
+      margin-left:4px;
+      font-size:.5em;
+      letter-spacing:-.03em;
+    }
+
+    .period{
+      margin:18px 0 0;
+      color:#8b847d;
+      font-size:15px;
+      font-weight:750;
+    }
+
+    /* =========================
+       버튼 - 위/아래 세로
+    ========================= */
+    .actions{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:12px;
+      margin-top:32px;
+    }
+
+    .cta{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:min(440px, 100%);
+      min-height:62px;
+      padding:17px 30px;
+      border-radius:999px;
+      text-decoration:none;
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:-.02em;
+      transition:.2s ease;
+    }
+
+    .cta:hover{transform:translateY(-2px)}
+
+    .cta-coupon{
+      position:relative;
+      overflow:hidden;
+      color:#fff;
+      background:linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow:0 14px 30px rgba(255,79,31,.27);
+    }
+
+    .cta-coupon::before{
+      content:"";
+      position:absolute;
+      top:-50%;
+      left:-30%;
+      width:30%;
+      height:200%;
+      background:rgba(255,255,255,.18);
+      transform:rotate(18deg);
+      transition:.35s ease;
+    }
+
+    .cta-coupon:hover::before{left:115%}
+
+    .cta-game{
+      color:#fff;
+      background:var(--black);
+      box-shadow:0 12px 26px rgba(0,0,0,.16);
+    }
+
+    .cta-game:hover{background:#292929}
+
+    .coupon-icon{
+      display:inline-grid;
+      place-items:center;
+      width:30px;
+      height:22px;
+      margin-right:10px;
+      border:2px solid rgba(255,255,255,.92);
+      border-radius:5px;
+      font-size:13px;
+      line-height:1;
+      font-weight:950;
+      transform:rotate(-3deg);
+    }
+
+    .cta-arrow{
+      margin-left:10px;
+      opacity:.8;
+    }
+
+    .coupon-note{
+      margin:12px 0 0;
+      color:#aaa29a;
+      font-size:13px;
+      font-weight:650;
+    }
+
+    /* =========================
+       카드 사이 연결 문구
+    ========================= */
+    .next-deal{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:14px;
+      margin:0 auto 42px;
+      color:#aaa29a;
+      font-size:12px;
+      font-weight:850;
+      letter-spacing:.15em;
+    }
+
+    .next-deal::before,
+    .next-deal::after{
+      content:"";
+      width:72px;
+      height:1px;
+      background:#d9d1ca;
+    }
+
+    /* =========================
+       하단 마무리
+    ========================= */
+    .footer-note{
+      text-align:center;
+      padding:10px 20px 4px;
+      color:#7d766f;
+      font-size:15px;
+      font-weight:700;
+    }
+
+    /* =========================
+       모바일
+    ========================= */
+    @media(max-width:760px){
+      .page{
+        width:min(100% - 18px, 1180px);
+        margin:18px auto 44px;
+      }
+
+      .intro{
+        padding:30px 18px 34px;
+      }
+
+      .game-card{
+        margin-bottom:26px;
+        border-radius:24px;
+      }
+
+      .pick-label{
+        top:14px;
+        left:14px;
+        gap:7px;
+        padding:8px 11px;
+      }
+
+      .pick-number{font-size:14px}
+      .pick-copy{font-size:10px}
+
+      .discount-badge{
+        right:14px;
+        bottom:14px;
+        min-width:108px;
+        padding:12px 13px;
+        border-radius:17px;
+      }
+
+      .discount-badge small{font-size:10px}
+      .discount-badge strong{font-size:28px}
+
+      .content{
+        padding:42px 20px 46px;
+      }
+
+      .index-watermark{
+        top:16px;
+        font-size:76px;
+      }
+
+      .summary{font-size:17px}
+      .price-old{font-size:18px}
+      .price-arrow{font-size:17px}
+      .period{font-size:13px}
+
+      .cta{
+        min-height:58px;
+        font-size:17px;
+      }
+
+      .next-deal{
+        margin-bottom:26px;
+        font-size:10px;
+      }
+
+      .next-deal::before,
+      .next-deal::after{
+        width:34px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <!-- =========================================================
+         상단 타이틀
+         ========================================================= -->
+    <header class="intro">
+      <div class="intro-badge">WEEKEND DEAL</div>
+
+      <!-- ★ 수정 가능: 메인 프로모션 제목 -->
+      <h1>주말의 게임</h1>
+
+      <!-- ★ 수정 가능: 상단 소개 문구 -->
+      <p>이번 주말, 딱 세 작품만 특별가로.<br>놓치기 아까운 게임을 한 번에 만나보세요.</p>
+    </header>
+
+
+    <!-- =========================================================
+         GAME 01
+         ========================================================= -->
+    <section class="game-card">
+
+      <div class="hero">
+
+        <!-- ★ GAME 01 수정 1: 게임 이미지 URL -->
+        <img
+          src="https://d2x8kymwjom7h7.cloudfront.net/live/member_no/88553610/application_no/119001/images/Manito%202025-07-28%20%EC%98%A4%ED%9B%84%207_27_47_1754875752847.png"
+          alt="GAME 01 메인 이미지"
+        >
+
+        <div class="pick-label">
+          <span class="pick-number">01</span>
+          <span class="pick-copy">THIS WEEK'S PICK</span>
+        </div>
+
+        <!-- ★ GAME 01 수정 2: 할인율 -->
+        <div class="discount-badge">
+          <small>FINAL PRICE</small>
+          <strong>40%</strong>
+        </div>
+
+      </div>
+
+      <div class="content">
+        <div class="index-watermark">01</div>
+
+        <p class="eyebrow">WEEKEND PICK 01</p>
+
+        <!-- ★ GAME 01 수정 3: 게임명 -->
+        <h2 class="game-title">후즈 마이 마니또(시크릿 플러스)</h2>
+
+        <!-- ★ GAME 01 수정 4: 한 줄 소개 -->
+        <p class="summary">
+          마니또 선물로 이런 것도 준다고?<br>
+          이번 주말에 만나는 특별한 비주얼 노벨.
+        </p>
+
+        <hr class="divider">
+
+        <div class="price-row">
+          <!-- ★ GAME 01 수정 5: 정가 -->
+          <span class="price-old">17,900원</span>
+
+          <span class="price-arrow">→</span>
+
+          <!-- ★ GAME 01 수정 6: 최종 할인가 -->
+          <span class="price-final">10,650<span class="won">원</span></span>
+        </div>
+
+        <!-- ★ GAME 01 수정 7: 기간 -->
+        <p class="period">8.21 FRI — 8.23 SUN · 주말 한정</p>
+
+        <div class="actions">
+          <!-- ★ GAME 01 수정 8: 쿠폰 URL -->
+          <a class="cta cta-coupon" href="#">
+            <span class="coupon-icon">%</span>
+            할인 쿠폰 받기
+          </a>
+
+          <!-- ★ GAME 01 수정 9: 게임 상세 URL -->
+          <a class="cta cta-game" href="https://store.onstove.com/games/102913">
+            지금 게임 보러가기
+            <span class="cta-arrow">→</span>
+          </a>
+        </div>
+
+        <p class="coupon-note">쿠폰 발급 후 결제 단계에서 적용할 수 있습니다.</p>
+      </div>
+
+    </section>
+
+
+    <div class="next-deal">NEXT WEEKEND DEAL ↓</div>
+
+
+    <!-- =========================================================
+         GAME 02
+         ========================================================= -->
+    <section class="game-card">
+
+      <div class="hero">
+
+        <!-- ★ GAME 02 수정 1: 게임 이미지 URL -->
+        <img
+          src="https://d2x8kymwjom7h7.cloudfront.net/live/member_no/209379182/application_no/119001/images/%EA%B2%8C%EC%9E%84%20%EB%8C%80%ED%91%9C%20%EC%9D%B4%EB%AF%B8%EC%A7%80_1758562798826.png"
+          alt="GAME 02 메인 이미지"
+        >
+
+        <div class="pick-label">
+          <span class="pick-number">02</span>
+          <span class="pick-copy">WEEKEND SELECT</span>
+        </div>
+
+        <!-- ★ GAME 02 수정 2: 할인율 -->
+        <div class="discount-badge">
+          <small>FINAL PRICE</small>
+          <strong>40%</strong>
+        </div>
+
+      </div>
+
+      <div class="content">
+        <div class="index-watermark">02</div>
+
+        <p class="eyebrow">WEEKEND PICK 02</p>
+
+        <!-- ★ GAME 02 수정 3: 게임명 -->
+        <h2 class="game-title">삼등분의 최애님</h2>
+
+        <!-- ★ GAME 02 수정 4: 한 줄 소개 -->
+        <p class="summary">
+          남친. 모집합니다.<br>
+          도파민 터치는 러브코미디 비주얼 노벨.
+        </p>
+
+        <hr class="divider">
+
+        <div class="price-row">
+          <!-- ★ GAME 02 수정 5: 정가 -->
+          <span class="price-old">19,900원</span>
+
+          <span class="price-arrow">→</span>
+
+          <!-- ★ GAME 02 수정 6: 최종 할인가 -->
+          <span class="price-final">11,840<span class="won">원</span></span>
+        </div>
+
+        <!-- ★ GAME 02 수정 7: 기간 -->
+        <p class="period">8.21 FRI — 8.23 SUN · 주말 한정</p>
+
+        <div class="actions">
+          <!-- ★ GAME 02 수정 8: 쿠폰 URL -->
+          <a class="cta cta-coupon" href="#">
+            <span class="coupon-icon">%</span>
+            할인 쿠폰 받기
+          </a>
+
+          <!-- ★ GAME 02 수정 9: 게임 상세 URL -->
+          <a class="cta cta-game" href="#">
+            지금 게임 보러가기
+            <span class="cta-arrow">→</span>
+          </a>
+        </div>
+
+        <p class="coupon-note">쿠폰 발급 후 결제 단계에서 적용할 수 있습니다.</p>
+      </div>
+
+    </section>
+
+
+    <div class="next-deal">ONE MORE DEAL ↓</div>
+
+
+    <!-- =========================================================
+         GAME 03
+         ========================================================= -->
+    <section class="game-card">
+
+      <div class="hero">
+
+        <!-- ★ GAME 03 수정 1: 게임 이미지 URL -->
+        <img
+          src="https://d2x8kymwjom7h7.cloudfront.net/live/application_no/119001/application_no/119001/images/g1_1678246977011.gif"
+          alt="GAME 03 메인 이미지"
+        >
+
+        <div class="pick-label">
+          <span class="pick-number">03</span>
+          <span class="pick-copy">LAST WEEKEND PICK</span>
+        </div>
+
+        <!-- ★ GAME 03 수정 2: 할인율 -->
+        <div class="discount-badge">
+          <small>FINAL PRICE</small>
+          <strong>57%</strong>
+        </div>
+
+      </div>
+
+      <div class="content">
+        <div class="index-watermark">03</div>
+
+        <p class="eyebrow">WEEKEND PICK 03</p>
+
+        <!-- ★ GAME 03 수정 3: 게임명 -->
+        <h2 class="game-title">헌트 더 나이트</h2>
+
+        <!-- ★ GAME 03 수정 4: 한 줄 소개 -->
+        <p class="summary">
+          액션 게임의 자신있는 사람만 도전하세요!<br>
+          다크 판타지 세계관의 레트로 액션 어드벤처.
+        </p>
+
+        <hr class="divider">
+
+        <div class="price-row">
+          <!-- ★ GAME 03 수정 5: 정가 -->
+          <span class="price-old">21,500원</span>
+
+          <span class="price-arrow">→</span>
+
+          <!-- ★ GAME 03 수정 6: 최종 할인가 -->
+          <span class="price-final">9,130<span class="won">원</span></span>
+        </div>
+
+        <!-- ★ GAME 03 수정 7: 기간 -->
+        <p class="period">8.21 FRI — 8.23 SUN · 주말 한정</p>
+
+        <div class="actions">
+          <!-- ★ GAME 03 수정 8: 쿠폰 URL -->
+          <a class="cta cta-coupon" href="#">
+            <span class="coupon-icon">%</span>
+            할인 쿠폰 받기
+          </a>
+
+          <!-- ★ GAME 03 수정 9: 게임 상세 URL -->
+          <a class="cta cta-game" href="#">
+            지금 게임 보러가기
+            <span class="cta-arrow">→</span>
+          </a>
+        </div>
+
+        <p class="coupon-note">쿠폰 발급 후 결제 단계에서 적용할 수 있습니다.</p>
+      </div>
+
+    </section>
+
+
+    <!-- ★ 수정 가능: 페이지 마지막 문구 -->
+    <div class="footer-note">
+      다음 주말에도 새로운 게임 특가가 찾아옵니다.
+    </div>
+
+  </main>
+</body>
+</html>
